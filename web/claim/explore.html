@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Open Avatar — explore</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header>
+      <a href="./">Open Avatar</a>
+      <nav>
+        <a href="./explore.html">Explore</a>
+        <a href="./">Claim</a>
+      </nav>
+    </header>
+    <main>
+      <h1>Public marks</h1>
+      <p class="lede">Each handle is a one-of-one person mark. Agents read the JSON. Nobody uploads a face here.</p>
+      <div class="cards" id="cards"></div>
+    </main>
+    <script type="module">
+      import { sigilSvg } from "./sigil.js";
+      const root = document.querySelector("#cards");
+      const res = await fetch("/api/cards");
+      const { cards } = await res.json();
+      if (!cards.length) {
+        root.innerHTML = "<p class=\"lede\">No public cards yet. Claim one, then <code>card publish</code>.</p>";
+      }
+      for (const card of cards) {
+        const item = document.createElement("article");
+        item.innerHTML = `${await sigilSvg(card.handle)}<p>@${card.handle} · ${card.kind}<br>${card.displayName}</p>`;
+        root.append(item);
+      }
+    </script>
+  </body>
+</html>

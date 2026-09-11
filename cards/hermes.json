@@ -1,0 +1,29 @@
+{
+  "spec": "open-identity-card/v0",
+  "handle": "hermes",
+  "kind": "agent",
+  "displayName": "Hermes",
+  "bio": "Agent identity (not a model-passport). Open Identity Card for a local helper agent. Distinct from Hermes model-passport fields.",
+  "links": [
+    {
+      "label": "github",
+      "url": "https://github.com/kvnloo/openavatar"
+    }
+  ],
+  "license": {
+    "voice": "no-synthetic",
+    "commercial": "negotiate",
+    "likeness": "attribution-required"
+  },
+  "consent": {
+    "voiceAt": null,
+    "likenessAt": null,
+    "commercialAt": null
+  },
+  "avatar": {
+    "sigil_algorithm": "openavatar-person-mark/v1",
+    "sigil_hash": "955b76d58d00541f32108c945a9acdc76f34748cf49cb153a34f61c78991f2c3"
+  },
+  "createdAt": "2026-09-11T00:00:00Z",
+  "updatedAt": "2026-09-11T00:00:00Z"
+}

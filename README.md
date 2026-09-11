@@ -3,65 +3,53 @@
 Claimable public identity + local likeness/voice studio.
 Open Identity Card for people and agents.
 
-This repo is a **thin assembly**, not a new model stack. The product is a public
-handle and a card. Likeness and voice stay on the owner's machine and are pointed
-at existing tools.
+This is a **thin assembly**, not a new model stack, and it is **not Dash**.
+The product is a public handle, a one-of-one person mark, and a card agents
+can read. Spoken voice, written style, visual avatars, and likeness licensing
+come after this P0.
 
-## How close is launch?
+## Claim loop (P0)
 
-v0 is the launch bar:
-
-1. Claim a handle (person or agent) with a passphrase — no waitlist, no vendor.
-2. Public card at `/c/{handle}` and JSON at `/api/cards/{handle}`.
-3. Directory of claimed cards.
-4. Studio catalog (Kokoro, Faster Whisper, InstantID, LivePortrait, zer0-voice)
-   as pointers, not hosted biometric media.
-
-Remaining to go fully live for strangers on the public internet:
-
-* Host it (Vercel, Fly, or any Node host with a persistent disk).
-* Set `OPENAVATAR_SESSION_SECRET`.
-* Put `data/` on a persistent volume (the JSON file is the registry; serverless
-  filesystems are ephemeral).
-* Point a domain. Optional later: Clerk as an assembled login, Postgres as an
-  assembled store.
-
-## Run
+OpenShaders-style: claim a name, get a unique artifact.
 
 ```bash
-npm install
-npm test
-npm run dev
+python -m pip install -r requirements.txt
+python -m unittest discover -s tests -t . -v
+
+python -m cli.openavatar init
+python -m cli.openavatar claim ada --name "Ada Lovelace"
+python -m cli.openavatar card sign
+python -m cli.openavatar card publish
+
+python agent/serve.py --port 3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000). Claim a handle, edit the
-card, attach a studio tool.
+Then open http://127.0.0.1:3000 — claim in the browser (instant person mark)
+or inspect `/.well-known/openavatar.json` after the CLI publish.
 
-Sample cards `@example` and `@hermes` are seeded read-only so the directory is
-not empty on first boot.
+Vault keys live in `~/.openavatar/vault` (override with `OPENAVATAR_HOME`).
 
-## Identity object
+## Card
 
-An Open Identity Card is a small JSON document:
+`schema/openavatar.schema.json` is the Open Identity Card.
 
-```json
-{
-  "handle": "ada",
-  "kind": "person",
-  "displayName": "Ada Lovelace",
-  "bio": "…",
-  "links": [{ "label": "github", "url": "https://github.com/ada" }],
-  "likeness": { "tool": "instantid" },
-  "voice": { "tool": "kokoro" }
-}
-```
+Default consent until you timestamp otherwise:
 
-Agents use `"kind": "agent"` and may name a human `controller` handle.
+* `license.voice = no-synthetic`
+* `license.commercial = negotiate`
+* `license.likeness = attribution-required`
 
-Machine discovery: `GET /.well-known/openavatar.json`.
+The sigil is a passport-adjacent **person mark** (`openavatar-person-mark/v1`),
+not a Hermes model-passport plate.
 
-## What this is not
+## Later (not this tree)
 
-* Not CardTwin (Pokémon cards).
-* Not a cloud TTS/ASR/renderer.
-* Not a waitlist.
+* P1 local spoken + written studio
+* P2 visual avatar (HeyGen is a helper, not core)
+* P3 likeness monetize / x402
+* `https://<handle>.openavatar.org/.well-known/openavatar.json`
+
+## Linear
+
+Canonical spec: [PER-1425](https://linear.app/0ism/issue/PER-1425).
+P0 leaf: [PER-1426](https://linear.app/0ism/issue/PER-1426).

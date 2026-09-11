@@ -1,0 +1,29 @@
+{
+  "spec": "open-identity-card/v0",
+  "handle": "example",
+  "kind": "person",
+  "displayName": "Example",
+  "bio": "Unsigned example Open Identity Card. Replace with `python -m cli.openavatar claim example` then `card sign` / `card publish`.",
+  "links": [
+    {
+      "label": "github",
+      "url": "https://github.com/kvnloo/openavatar"
+    }
+  ],
+  "license": {
+    "voice": "no-synthetic",
+    "commercial": "negotiate",
+    "likeness": "attribution-required"
+  },
+  "consent": {
+    "voiceAt": null,
+    "likenessAt": null,
+    "commercialAt": null
+  },
+  "avatar": {
+    "sigil_algorithm": "openavatar-person-mark/v1",
+    "sigil_hash": "7ed9aef54e1fc63d90c6c28c6044ecc90ddbbde5a8ba69a3e076ed230527d98f"
+  },
+  "createdAt": "2026-09-11T00:00:00Z",
+  "updatedAt": "2026-09-11T00:00:00Z"
+}

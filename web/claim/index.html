@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Open Avatar — claim a public identity</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header>
+      <a href="./">Open Avatar</a>
+      <nav>
+        <a href="./explore.html">Explore</a>
+        <a href="https://github.com/kvnloo/openavatar">Source</a>
+      </nav>
+    </header>
+    <main>
+      <p class="lede">Claim your piece of the internet. One handle, one person mark, a card agents can read. Likeness and voice stay on your machine.</p>
+      <div class="grid">
+        <form id="claim">
+          <label>Handle <input name="handle" required placeholder="ada" autocomplete="username" /></label>
+          <label>Kind
+            <select name="kind">
+              <option value="person">Person</option>
+              <option value="agent">Agent</option>
+            </select>
+          </label>
+          <label>Display name <input name="displayName" required placeholder="Ada Lovelace" /></label>
+          <label>Bio <textarea name="bio" placeholder="Public line. Agents will read this."></textarea></label>
+          <label>Controller (agents) <input name="controller" placeholder="example" /></label>
+          <label>Links <textarea name="links" placeholder="github https://github.com/you"></textarea></label>
+          <button type="submit">Claim this identity</button>
+          <p class="lede">This page mints the card in your browser. Sign and publish it with the vault CLI so agents can verify it.</p>
+          <p id="status" class="err" hidden></p>
+        </form>
+        <div>
+          <div class="sigil" id="sigil"></div>
+          <pre id="json"></pre>
+        </div>
+      </div>
+    </main>
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
