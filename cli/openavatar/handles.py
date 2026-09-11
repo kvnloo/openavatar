@@ -15,6 +15,7 @@ RESERVED = {
     "cards",
     "claim",
     "explore",
+    "imagine",
     "openavatar",
     "root",
     "studio",

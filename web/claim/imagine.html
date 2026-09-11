@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Open Avatar — imagine</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header>
+      <a href="./">Open Avatar</a>
+      <nav>
+        <a href="./">Claim</a>
+        <a href="./imagine.html">Imagine</a>
+        <a href="./explore.html">Explore</a>
+      </nav>
+    </header>
+    <main>
+      <h1>Imagine you</h1>
+      <p class="lede">Your photos, your hobbies, a universe. Star Wars cosplay, a movie that’s dropping, the look of whatever you’re into. Face stays yours. Models are adapters — Hugging Face is the slow free one.</p>
+      <div class="grid">
+        <form id="imagine">
+          <label>Your face
+            <input name="photo" type="file" accept="image/*" />
+          </label>
+          <label class="file-row">
+            <span>Or take one on this phone</span>
+            <input name="camera" type="file" accept="image/*" capture="user" />
+          </label>
+          <div id="preview" class="photo-wrap" hidden></div>
+          <p class="lede">Universes</p>
+          <div class="chips" id="presets"></div>
+          <label>Coming-soon movie / custom
+            <input name="extra" placeholder="the new Star Wars, dune still, F1 paddock…" />
+          </label>
+          <label>Hobbies
+            <input name="hobbies" placeholder="synth, bikes, cooking, climbing" />
+          </label>
+          <label>Hugging Face token (stays in this browser)
+            <input name="token" type="password" autocomplete="off" placeholder="hf_…" />
+          </label>
+          <p class="lede">Free token: <a href="https://huggingface.co/settings/tokens">huggingface.co/settings/tokens</a> with Inference Providers. Expect a wait. We do not scrape socials — drop photos you already have, and link profiles on Claim.</p>
+          <button type="submit">Imagine this universe</button>
+          <p id="status" class="err" hidden></p>
+        </form>
+        <div>
+          <img id="result" class="photo" alt="" hidden />
+          <pre id="prompt"></pre>
+          <a id="save" class="btn" hidden>Save image</a>
+        </div>
+      </div>
+    </main>
+    <script type="module" src="./imagine.js"></script>
+  </body>
+</html>

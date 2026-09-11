@@ -6,11 +6,16 @@ import threading
 import unittest
 from http.server import ThreadingHTTPServer
 from pathlib import Path
-from urllib.request import urlopen
+from urllib.error import HTTPError
+from urllib.request import Request, urlopen
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from agent.serve import Handler
+
+PIXEL = (
+    "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg=="
+)
 
 
 class ServeTests(unittest.TestCase):
@@ -42,6 +47,37 @@ class ServeTests(unittest.TestCase):
             html = res.read().decode("utf-8")
         self.assertIn("claim", html.lower())
         self.assertIn("Open Avatar", html)
+        self.assertIn("imagine.html", html)
+
+    def test_imagine_page_and_presets(self) -> None:
+        with urlopen(self.base + "/imagine.html") as res:
+            html = res.read().decode("utf-8")
+        self.assertIn("Star Wars", html)
+        with urlopen(self.base + "/api/imagine/presets") as res:
+            payload = json.loads(res.read().decode("utf-8"))
+        ids = {item["id"] for item in payload["presets"]}
+        self.assertIn("star-wars", ids)
+
+    def test_imagine_requires_token(self) -> None:
+        body = json.dumps(
+            {
+                "image": "data:image/png;base64," + PIXEL,
+                "universe": "star-wars",
+                "hobbies": "synths",
+            }
+        ).encode("utf-8")
+        req = Request(
+            self.base + "/api/imagine",
+            data=body,
+            method="POST",
+            headers={"Content-Type": "application/json"},
+        )
+        with self.assertRaises(HTTPError) as ctx:
+            urlopen(req)
+        self.assertEqual(ctx.exception.code, 401)
+        payload = json.loads(ctx.exception.read().decode("utf-8"))
+        self.assertEqual(payload["error"], "missing_token")
+        self.assertIn("Star Wars", payload["prompt"])
 
 
 if __name__ == "__main__":

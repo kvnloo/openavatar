@@ -10,6 +10,7 @@ const RESERVED = new Set([
   "cards",
   "claim",
   "explore",
+  "imagine",
   "openavatar",
   "root",
   "studio",
@@ -82,16 +83,30 @@ form.addEventListener("submit", async (event) => {
   status.hidden = true;
   try {
     const card = await mintCard(form);
-    jsonEl.textContent = JSON.stringify(card, null, 2);
     localStorage.setItem("openavatar.card", JSON.stringify(card));
-    const blob = new Blob([JSON.stringify(card, null, 2)], { type: "application/json" });
-    const a = document.createElement("a");
-    a.href = URL.createObjectURL(blob);
-    a.download = `${card.handle}.openavatar.json`;
-    a.click();
-    status.hidden = false;
-    status.classList.remove("err");
-    status.textContent = `Claimed @${card.handle}. Sign it with python -m cli.openavatar card sign.`;
+    jsonEl.textContent = JSON.stringify(card, null, 2);
+    const file = new File([JSON.stringify(card, null, 2)], `${card.handle}.openavatar.json`, {
+      type: "application/json",
+    });
+    if (navigator.canShare?.({ files: [file] })) {
+      try {
+        await navigator.share({ files: [file], title: `@${card.handle}` });
+      } catch {
+        /* user cancelled the share sheet */
+      }
+      status.hidden = false;
+      status.classList.remove("err");
+      status.textContent = `Claimed @${card.handle}. Saved from the share sheet. Sign later with the vault CLI.`;
+    } else {
+      const blob = new Blob([JSON.stringify(card, null, 2)], { type: "application/json" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = `${card.handle}.openavatar.json`;
+      a.click();
+      status.hidden = false;
+      status.classList.remove("err");
+      status.textContent = `Claimed @${card.handle}. Sign it with python -m cli.openavatar card sign.`;
+    }
     await preview();
   } catch (error) {
     status.hidden = false;

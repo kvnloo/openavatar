@@ -10,6 +10,7 @@
     <header>
       <a href="./">Open Avatar</a>
       <nav>
+        <a href="./imagine.html">Imagine</a>
         <a href="./explore.html">Explore</a>
         <a href="./">Claim</a>
       </nav>
@@ -22,8 +23,11 @@
     <script type="module">
       import { sigilSvg } from "./sigil.js";
       const root = document.querySelector("#cards");
-      const res = await fetch("/api/cards");
-      const { cards } = await res.json();
+      const res = await fetch("/api/cards").catch(() => null);
+      let cards = [];
+      if (res && res.ok) {
+        cards = (await res.json()).cards || [];
+      }
       if (!cards.length) {
         root.innerHTML = "<p class=\"lede\">No public cards yet. Claim one, then <code>card publish</code>.</p>";
       }
