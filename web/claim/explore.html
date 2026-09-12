@@ -23,11 +23,21 @@
     <script type="module">
       import { sigilSvg } from "./sigil.js";
       const root = document.querySelector("#cards");
-      const res = await fetch("/api/cards").catch(() => null);
-      let cards = [];
-      if (res && res.ok) {
-        cards = (await res.json()).cards || [];
+      async function loadCards() {
+        for (const url of ["/api/cards", "./registry.json"]) {
+          try {
+            const res = await fetch(url);
+            if (res.ok) {
+              const data = await res.json();
+              return data.cards || [];
+            }
+          } catch {
+            /* try next */
+          }
+        }
+        return [];
       }
+      const cards = await loadCards();
       if (!cards.length) {
         root.innerHTML = "<p class=\"lede\">No public cards yet. Claim one, then <code>card publish</code>.</p>";
       }

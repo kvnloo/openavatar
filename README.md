@@ -8,11 +8,18 @@ The product is a public handle, a one-of-one person mark, and a card agents
 can read. Then you can Imagine yourself in other universes — Star Wars
 cosplay, a movie that’s dropping, the look of your hobbies.
 
+**Live (GitHub Pages):** https://kvnloo.github.io/openavatar/
+
+Contribution contract: [Verified OSS Loop](https://github.com/kvnloo/verified-oss-loop). Paste `prompt.md` into a coding agent. Workers never merge `main` or `dev`.
+
 ## Claim loop (P0)
 
 ```bash
 python -m pip install -r requirements.txt
 python -m unittest discover -s tests -t . -v
+python -m pip install -r requirements-dev.txt
+python -m playwright install chromium
+python -m pytest e2e -v
 
 python -m cli.openavatar init
 python -m cli.openavatar claim ada --name "Ada Lovelace"

@@ -14,8 +14,21 @@ form.token.value = localStorage.getItem("openavatar.hf_token") || "";
 const claimed = JSON.parse(localStorage.getItem("openavatar.card") || "null");
 
 async function loadPresets() {
-  const res = await fetch("/api/imagine/presets");
-  const data = await res.json();
+  let data;
+  for (const url of ["/api/imagine/presets", "./presets.json"]) {
+    try {
+      const res = await fetch(url);
+      if (res.ok) {
+        data = await res.json();
+        break;
+      }
+    } catch {
+      /* try next */
+    }
+  }
+  if (!data?.presets) {
+    throw new Error("Could not load universes.");
+  }
   for (const item of data.presets) {
     const chip = document.createElement("button");
     chip.type = "button";

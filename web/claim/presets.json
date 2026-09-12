@@ -1,0 +1,12 @@
+{
+  "provider": "huggingface",
+  "model": "stabilityai/stable-diffusion-xl-base-1.0",
+  "presets": [
+    {"id": "star-wars", "label": "Star Wars", "hint": "Cosplay still from that galaxy — same face, film lighting."},
+    {"id": "ghibli", "label": "Ghibli", "hint": "Soft painted world, still you."},
+    {"id": "cyberpunk", "label": "Cyberpunk", "hint": "Night city, neon, rain."},
+    {"id": "noir", "label": "Noir", "hint": "Black-and-white movie still."},
+    {"id": "oil", "label": "Oil portrait", "hint": "Museum wall, your likeness."},
+    {"id": "anime", "label": "Anime", "hint": "Key visual of you."}
+  ]
+}
