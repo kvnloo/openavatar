@@ -77,6 +77,9 @@ async function preview() {
 form.handle.addEventListener("input", () => {
   preview().catch(() => {});
 });
+form.handle.addEventListener("change", () => {
+  preview().catch(() => {});
+});
 
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
