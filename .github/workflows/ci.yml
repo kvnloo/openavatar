@@ -2,7 +2,7 @@ name: ci
 
 on:
   push:
-    branches: [main, preview, nightly, dev]
+    branches: [main, preview, nightly, dev, "cursor/**"]
   pull_request:
 
 jobs:
