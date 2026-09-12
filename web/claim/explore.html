@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#05080c" />
+    <title>Open Avatar — explore</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500&family=IBM+Plex+Mono:wght@400;500&family=Syne:wght@600;700&display=swap" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="atmosphere" aria-hidden="true"></div>
+    <div class="grain" aria-hidden="true"></div>
+    <header class="mast">
+      <a class="wordmark" href="./"><span class="mark-dot" aria-hidden="true"></span>Open Avatar</a>
+      <nav>
+        <a href="./imagine.html">Imagine</a>
+        <a href="./explore.html" aria-current="page">Explore</a>
+        <a href="./">Claim</a>
+      </nav>
+    </header>
+    <main>
+      <section class="hero">
+        <p class="kicker">Registry</p>
+        <h1>Public marks</h1>
+        <p class="lede">Each handle is a one-of-one person mark. Agents read the JSON. Nobody uploads a face here.</p>
+      </section>
+      <div class="cards" id="cards"></div>
+    </main>
+    <script type="module">
+      import { sigilSvg } from "./sigil.js";
+      const root = document.querySelector("#cards");
+      async function loadCards() {
+        for (const url of ["/api/cards", "./registry.json"]) {
+          try {
+            const res = await fetch(url);
+            if (res.ok) {
+              const data = await res.json();
+              return data.cards || [];
+            }
+          } catch {
+            /* try next */
+          }
+        }
+        return [];
+      }
+      const cards = await loadCards();
+      if (!cards.length) {
+        root.innerHTML = "<p class=\"lede\">No public cards yet. Claim one, then <code>card publish</code>.</p>";
+      }
+      for (const card of cards) {
+        const item = document.createElement("article");
+        item.className = "mark";
+        item.innerHTML = `<div class="sigil">${await sigilSvg(card.handle)}</div>
+          <p class="mark-meta">@${card.handle} · ${card.kind}</p>
+          <p class="mark-name">${card.displayName}</p>`;
+        root.append(item);
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openavatar.org/schema/openavatar.schema.json",
+  "title": "Open Identity Card",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "spec",
+    "handle",
+    "kind",
+    "displayName",
+    "license",
+    "avatar",
+    "createdAt"
+  ],
+  "properties": {
+    "spec": {
+      "const": "open-identity-card/v0"
+    },
+    "handle": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]{1,30}[a-z0-9]$"
+    },
+    "kind": {
+      "enum": ["person", "agent"]
+    },
+    "displayName": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80
+    },
+    "bio": {
+      "type": "string",
+      "maxLength": 500
+    },
+    "controller": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]{1,30}[a-z0-9]$"
+    },
+    "links": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["label", "url"],
+        "properties": {
+          "label": { "type": "string", "minLength": 1 },
+          "url": { "type": "string", "format": "uri" }
+        }
+      }
+    },
+    "license": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["voice", "commercial", "likeness"],
+      "properties": {
+        "voice": { "enum": ["no-synthetic", "synthetic-ok"] },
+        "commercial": { "enum": ["negotiate", "ok", "no"] },
+        "likeness": { "enum": ["attribution-required", "no", "ok"] }
+      }
+    },
+    "consent": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "voiceAt": { "type": ["string", "null"] },
+        "likenessAt": { "type": ["string", "null"] },
+        "commercialAt": { "type": ["string", "null"] }
+      }
+    },
+    "avatar": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sigil_algorithm", "sigil_hash"],
+      "properties": {
+        "sigil_algorithm": { "const": "openavatar-person-mark/v1" },
+        "sigil_hash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "publicKey": {
+      "type": "string",
+      "description": "Ed25519 public key, hex"
+    },
+    "signature": {
+      "type": "string",
+      "description": "Ed25519 signature over canonical JSON of the card without signature"
+    },
+    "createdAt": { "type": "string", "format": "date-time" },
+    "updatedAt": { "type": "string", "format": "date-time" }
+  }
+}

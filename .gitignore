@@ -1,0 +1,14 @@
+# Byte-compiled
+__pycache__/
+*.py[cod]
+.venv/
+*.egg-info/
+
+# Local vault / published card
+.openavatar/
+_site/
+.pytest_cache/
+playwright-report/
+
+# OS
+.DS_Store

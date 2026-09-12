@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "openavatar"
+version = "0.1.0"
+description = "Claimable public identity + local likeness/voice studio"
+requires-python = ">=3.11"
+dependencies = ["cryptography"]
+
+[project.scripts]
+openavatar = "cli.openavatar.__main__:main"
+
+[tool.setuptools.packages.find]
+include = ["cli*"]
