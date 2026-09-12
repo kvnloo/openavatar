@@ -2,7 +2,7 @@ name: pages
 
 on:
   push:
-    branches: [main, preview, cursor/openavatar-launch-mvp-a09b]
+    branches: [main, preview, "cursor/**"]
   workflow_dispatch:
 
 permissions:
