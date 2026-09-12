@@ -96,6 +96,7 @@ form.addEventListener("submit", async (event) => {
       }
       status.hidden = false;
       status.classList.remove("err");
+      status.classList.add("ok");
       status.textContent = `Claimed @${card.handle}. Saved from the share sheet. Sign later with the vault CLI.`;
     } else {
       const blob = new Blob([JSON.stringify(card, null, 2)], { type: "application/json" });
@@ -105,12 +106,14 @@ form.addEventListener("submit", async (event) => {
       a.click();
       status.hidden = false;
       status.classList.remove("err");
+      status.classList.add("ok");
       status.textContent = `Claimed @${card.handle}. Sign it with python -m cli.openavatar card sign.`;
     }
     await preview();
   } catch (error) {
     status.hidden = false;
     status.classList.add("err");
+    status.classList.remove("ok");
     status.textContent = error.message;
   }
 });
