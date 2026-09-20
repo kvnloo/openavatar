@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openavatar.dev/schema/taste-v0.schema.json",
+  "title": "OpenAvatar Taste Library v0",
+  "description": "Portable references and collections describing deliberately curated taste. References point to source material; they do not imply permission to copy third-party assets.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["schema_version", "collections", "references"],
+  "properties": {
+    "schema_version": {
+      "const": "0.1"
+    },
+    "profile_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "collections": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/collection" }
+    },
+    "references": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/reference" }
+    }
+  },
+  "$defs": {
+    "visibility": {
+      "type": "string",
+      "enum": ["private", "public"],
+      "default": "private"
+    },
+    "stableId": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+    },
+    "collection": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["id", "name"],
+      "properties": {
+        "id": { "$ref": "#/$defs/stableId" },
+        "name": { "type": "string", "minLength": 1 },
+        "description": { "type": "string" },
+        "visibility": { "$ref": "#/$defs/visibility" },
+        "created_at": { "type": "string", "format": "date-time" }
+      }
+    },
+    "reference": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "id",
+        "canonical_url",
+        "media_type",
+        "collections",
+        "provenance",
+        "added_at"
+      ],
+      "properties": {
+        "id": { "$ref": "#/$defs/stableId" },
+        "canonical_url": { "type": "string", "format": "uri" },
+        "media_type": {
+          "type": "string",
+          "enum": [
+            "ui",
+            "interaction",
+            "ad",
+            "landing_page",
+            "launch_video",
+            "image",
+            "video",
+            "website",
+            "product",
+            "other"
+          ]
+        },
+        "title": { "type": "string" },
+        "note": { "type": "string" },
+        "tags": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "uniqueItems": true
+        },
+        "collections": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/stableId" },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "visibility": { "$ref": "#/$defs/visibility" },
+        "provenance": {
+          "type": "object",
+          "additionalProperties": true,
+          "required": ["source"],
+          "properties": {
+            "source": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Where the user saved or supplied the reference, e.g. manual, x_bookmarks, pinterest, arena."
+            },
+            "source_id": { "type": "string" },
+            "source_url": { "type": "string", "format": "uri" },
+            "imported_at": { "type": "string", "format": "date-time" }
+          }
+        },
+        "added_at": { "type": "string", "format": "date-time" }
+      }
+    }
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "schema_version": "0.1",
+  "profile_id": "example-designer",
+  "collections": [
+    {
+      "id": "ui-interactions",
+      "name": "UI interactions",
+      "description": "Interaction patterns worth revisiting.",
+      "visibility": "private",
+      "created_at": "2026-09-20T00:00:00Z"
+    },
+    {
+      "id": "launch-inspo",
+      "name": "Launch inspiration",
+      "description": "Ads, landing pages, and launch films.",
+      "visibility": "private",
+      "created_at": "2026-09-20T00:00:00Z"
+    }
+  ],
+  "references": [
+    {
+      "id": "ref-ui-001",
+      "canonical_url": "https://example.com/product/ui-demo",
+      "media_type": "ui",
+      "title": "Dense command palette interaction",
+      "note": "Fast hierarchy reveal without modal churn.",
+      "tags": ["navigation", "command-palette", "dense-ui"],
+      "collections": ["ui-interactions"],
+      "visibility": "private",
+      "provenance": { "source": "manual" },
+      "added_at": "2026-09-20T00:01:00Z"
+    },
+    {
+      "id": "ref-ad-001",
+      "canonical_url": "https://example.com/campaign/ad",
+      "media_type": "ad",
+      "title": "Product-first static ad",
+      "tags": ["product-led", "minimal-copy"],
+      "collections": ["launch-inspo"],
+      "visibility": "private",
+      "provenance": { "source": "manual" },
+      "added_at": "2026-09-20T00:02:00Z"
+    },
+    {
+      "id": "ref-lander-001",
+      "canonical_url": "https://example.com/landing-page",
+      "media_type": "landing_page",
+      "title": "Technical product landing page",
+      "note": "Strong product proof before social proof.",
+      "tags": ["b2b", "technical", "proof"],
+      "collections": ["launch-inspo"],
+      "visibility": "private",
+      "provenance": { "source": "manual" },
+      "added_at": "2026-09-20T00:03:00Z"
+    },
+    {
+      "id": "ref-video-001",
+      "canonical_url": "https://example.com/launch-film",
+      "media_type": "launch_video",
+      "title": "Short product launch film",
+      "tags": ["motion", "product-visualization"],
+      "collections": ["launch-inspo"],
+      "visibility": "private",
+      "provenance": { "source": "manual" },
+      "added_at": "2026-09-20T00:04:00Z"
+    }
+  ]
+}
